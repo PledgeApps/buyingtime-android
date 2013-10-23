@@ -1,20 +1,14 @@
 package com.pledgeapps.buyingtime;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.AdapterView;
 
-import com.pledgeapps.buyingtime.data.Alarm;
 import com.pledgeapps.buyingtime.data.Alarms;
 import com.pledgeapps.buyingtime.utils.AlarmHelper;
 

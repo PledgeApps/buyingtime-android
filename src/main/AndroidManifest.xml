@@ -14,6 +14,7 @@
         </activity>
         <activity android:name="com.pledgeapps.buyingtime.AlarmsActivity" android:label="@string/title_activity_alarms"  />
         <activity android:name="com.pledgeapps.buyingtime.AlarmActivity" android:label="@string/title_activity_edit_alarm" />
+        <activity android:name="com.pledgeapps.buyingtime.AlertActivity" android:label="@string/title_activity_alert" />
     </application>
 
 </manifest>

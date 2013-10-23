@@ -9,6 +9,8 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 
 import com.pledgeapps.buyingtime.AlarmsActivity;
+import com.pledgeapps.buyingtime.AlertActivity;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -33,7 +35,7 @@ public class AlarmHelper extends BroadcastReceiver {
         this.am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         //helper.pi = PendingIntent.getBroadcast(context, 0, new Intent(helper.namespace), PendingIntent.FLAG_UPDATE_CURRENT);
         this.pi = PendingIntent.getBroadcast(context, 0, new Intent(this.namespace), 0);
-        this.am.set( AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 10000, this.pi );
+        this.am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 10000, this.pi);
     }
 
     @Override
@@ -41,8 +43,9 @@ public class AlarmHelper extends BroadcastReceiver {
         PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "BUYINGTIMEALARM");
         wl.acquire(30000);
-        Intent i = new Intent(context, AlarmsActivity.class);
+        Intent i = new Intent(context, AlertActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         context.startActivity(i);
+
     }
 }
