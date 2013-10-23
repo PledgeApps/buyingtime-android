@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="5sp"  >
+    <ScrollView   android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1">
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"  android:orientation="vertical">
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="5dp" android:gravity="right" >
+                <ToggleButton android:id="@+id/activeToggle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textOn="On" android:textOff="Off"  />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="5dp" >
+                <TextView android:layout_width="0px" android:layout_height="wrap_content"  android:gravity="left" android:text="Pledge Per Minute:"  android:layout_weight="40" />
+                <EditText android:id="@+id/centsPerMinuteText" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="60" android:inputType="number" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="5dp" >
+                <TextView android:layout_width="0px" android:layout_height="wrap_content"  android:gravity="left" android:text="Grace Minutes:"  android:layout_weight="40" />
+                <EditText android:id="@+id/graceMinutesText" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="60" android:inputType="number" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal"  android:padding="5dp">
+                <TextView android:layout_width="0px" android:layout_height="wrap_content" android:text="Time" android:layout_weight="40" android:paddingTop="20dp" />
+                <LinearLayout android:layout_width="0px" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_weight="60" android:layout_gravity="left">
+                    <Spinner android:id="@+id/hourList" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=":"  />
+                    <Spinner android:id="@+id/minuteList" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <RadioGroup android:layout_width="wrap_content"	android:layout_height="wrap_content" android:orientation="horizontal" android:id="@+id/periodRadio" android:paddingTop="10dp"  >
+                        <RadioButton android:id="@+id/periodAM" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="am" />
+                        <RadioButton android:id="@+id/periodPM" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="pm" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="5dp" >
+                <TextView android:layout_width="0px" android:layout_height="wrap_content"  android:gravity="left" android:text="Grace Minutes:"  android:layout_weight="40" />
+                    <LinearLayout android:layout_width="0px" android:layout_height="wrap_content" android:orientation="vertical"   android:layout_weight="60" >
+                        <CheckBox android:id="@+id/sundayCheck" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Sunday" />
+                        <CheckBox android:id="@+id/mondayCheck" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Monday" />
+                        <CheckBox android:id="@+id/tuesdayCheck" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Tuesday" />
+                        <CheckBox android:id="@+id/wednesdayCheck" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Wednesday" />
+                        <CheckBox android:id="@+id/thursdayCheck" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Thursday" />
+                        <CheckBox android:id="@+id/fridayCheck" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Friday" />
+                        <CheckBox android:id="@+id/saturdayCheck" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Saturday" />
+                    </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="bottom"  android:padding="5dp">
+        <LinearLayout android:layout_width="0px" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="left" android:layout_weight="50" >
+            <Button android:id="@+id/deleteButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Delete" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0px" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="right" android:layout_weight="50" >
+            <Button android:id="@+id/saveButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Save" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

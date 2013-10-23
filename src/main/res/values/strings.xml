@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Buying Time</string>
+    <string name="action_alarms">Alarms</string>
+    <string name="action_add_alarm">Add</string>
+    <string name="title_activity_alarms">Alarms</string>
+    <string name="title_activity_edit_alarm">Edit Alarm</string>
+    <string name="namespace">com.pledgeapps.buyingtime</string>
+</resources>
