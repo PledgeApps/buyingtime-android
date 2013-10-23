@@ -32,13 +32,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public void setAlarm(Context context, Date alarmTime){
         this.am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        //helper.pi = PendingIntent.getBroadcast(context, 0, new Intent(helper.namespace), PendingIntent.FLAG_UPDATE_CURRENT);
-
         Bundle bundle = new Bundle();
         bundle.putString("ALARM_GUID", "123");
-        Intent intent = new Intent(this.namespace);
+        Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtras(bundle);
-
         this.pi = PendingIntent.getBroadcast(context, 0, intent, 0);
         this.am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 10000, this.pi);
     }
@@ -56,17 +53,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent closeDialogs = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         context.sendBroadcast(closeDialogs);
 
-
         Bundle bundle = new Bundle();
         bundle.putString("ALARM_GUID", guid);
 
         Intent i = new Intent(context, AlertActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtras(bundle);
-        //i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-        //i.setAction(Intent.ACTION_MAIN);
-        //i.addCategory(Intent.CATEGORY_LAUNCHER);
         context.startActivity(i);
-
     }
 }

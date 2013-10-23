@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -29,8 +30,8 @@ public class AlertActivity extends Activity {
     Handler refreshHandler;
     String previousDisplayTime = "";
     SimpleDateFormat formatter = new SimpleDateFormat("h:mma");
-    MediaPlayer mp;
     Vibrator vibrator;
+    Ringtone ringtone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,33 +71,22 @@ public class AlertActivity extends Activity {
 
     private void silenceAlarm()
     {
-        mp.stop();
-        vibrator.cancel();
+        ringtone.stop();
+        //vibrator.cancel();
     }
 
     private void soundAlarm()
     {
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(3600 * 1000); //For 1 hour unless dismissed.
-        //Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(),
-          //      RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        //if (ringtone != null) {
-            //ringtone.play();
+        //vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        //vibrator.vibrate(3600 * 1000); //For 1 hour unless dismissed.
 
-
-
-        try {
-            mp = new MediaPlayer();
-            mp.setDataSource(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-            final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            if (audioManager.getStreamVolume(AudioManager.STREAM_RING) != 0) {
-                mp.setAudioStreamType(AudioManager.STREAM_RING);
-                mp.setLooping(true);
-                mp.prepare();
-                mp.start();
-            }
-        } catch(Exception e) {
+        Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if(alert == null){
+            alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            if(alert == null) alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         }
+        ringtone = RingtoneManager.getRingtone(getApplicationContext(), alert);
+        ringtone.play();
     }
 
 
