@@ -1,22 +1,15 @@
 package com.pledgeapps.buyingtime;
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.PowerManager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.pledgeapps.buyingtime.data.Alarms;
-import com.pledgeapps.buyingtime.utils.AlarmHelper;
+import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -33,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new com.pledgeapps.buyingtime.MainFragment())
                     .commit();
             Alarms.load(getApplicationContext());
-            registerReceiver(AlarmHelper.getCurrent(), new IntentFilter(getString(R.string.namespace)) );
+            registerReceiver(AlarmReceiver.getCurrent(), new IntentFilter(getString(R.string.namespace)));
         }
     }
 

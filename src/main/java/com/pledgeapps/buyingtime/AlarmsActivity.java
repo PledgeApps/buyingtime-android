@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.AdapterView;
 
 import com.pledgeapps.buyingtime.data.Alarms;
-import com.pledgeapps.buyingtime.utils.AlarmHelper;
+import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 
 import java.util.Date;
 
@@ -75,7 +75,7 @@ public class AlarmsActivity extends Activity {
         Alarms alarms = Alarms.getCurrent();
         alarms.updateNextAlarmTime();
         alarms.save(getApplicationContext());
-        AlarmHelper.getCurrent().setAlarm(getApplicationContext(), new Date());
+        AlarmReceiver.getCurrent().setAlarm(getApplicationContext(), new Date());
     }
 
     private void selectAlarm(int alarmIndex)

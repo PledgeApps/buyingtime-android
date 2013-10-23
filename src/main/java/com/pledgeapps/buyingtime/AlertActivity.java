@@ -1,8 +1,14 @@
 package com.pledgeapps.buyingtime;
 
 import android.app.Activity;
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -23,6 +29,8 @@ public class AlertActivity extends Activity {
     Handler refreshHandler;
     String previousDisplayTime = "";
     SimpleDateFormat formatter = new SimpleDateFormat("h:mma");
+    MediaPlayer mp;
+    Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +58,45 @@ public class AlertActivity extends Activity {
         refreshHandler= new Handler();
         refreshHandler.postDelayed(refreshRunnable, 1000);
         updateScreen(true);
-
+        soundAlarm();
 
 
         // Register to get the alarm killed intent.
         //registerReceiver(mReceiver, new IntentFilter(Alarms.ALARM_KILLED));
 
 
+    }
+
+
+    private void silenceAlarm()
+    {
+        mp.stop();
+        vibrator.cancel();
+    }
+
+    private void soundAlarm()
+    {
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(3600 * 1000); //For 1 hour unless dismissed.
+        //Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(),
+          //      RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        //if (ringtone != null) {
+            //ringtone.play();
+
+
+
+        try {
+            mp = new MediaPlayer();
+            mp.setDataSource(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            if (audioManager.getStreamVolume(AudioManager.STREAM_RING) != 0) {
+                mp.setAudioStreamType(AudioManager.STREAM_RING);
+                mp.setLooping(true);
+                mp.prepare();
+                mp.start();
+            }
+        } catch(Exception e) {
+        }
     }
 
 
@@ -86,7 +126,8 @@ public class AlertActivity extends Activity {
     {
         new Thread(new Runnable() {
             public void run() {
-                snooze();
+                silenceAlarm();
+                //snooze();
             }
         }).start();
         super.onPause();
@@ -96,11 +137,14 @@ public class AlertActivity extends Activity {
 
     private void snooze()
     {
-
+        silenceAlarm();
+        //finish();
     }
 
     private void dismiss()
     {
+        silenceAlarm();
+        finish();
 
     }
 
