@@ -16,6 +16,9 @@ import android.widget.AdapterView;
 
 import com.pledgeapps.buyingtime.data.Alarm;
 import com.pledgeapps.buyingtime.data.Alarms;
+import com.pledgeapps.buyingtime.utils.AlarmHelper;
+
+import java.util.Date;
 
 
 /**
@@ -78,23 +81,12 @@ public class AlarmsActivity extends Activity {
         Alarms alarms = Alarms.getCurrent();
         alarms.updateNextAlarmTime();
         alarms.save(getApplicationContext());
-
-        PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(getString(R.string.namespace)), 0);
-        AlarmManager am = (AlarmManager)(this.getSystemService( Context.ALARM_SERVICE ));
-
-        for (Alarm a : alarms)
-        {
-            am.set( AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 20000, pi );
-        }
-
+        AlarmHelper.getCurrent().setAlarm(getApplicationContext(), new Date());
     }
 
     private void selectAlarm(int alarmIndex)
     {
-
-        Log.d("Test", "Loading alarm");
         Bundle bundle = new Bundle();
-        //bundle.putString("SCHEDULE_NAME", scheduleName);
         bundle.putInt("ALARM_INDEX", alarmIndex);
         Intent intent = new Intent(this, AlarmActivity.class);
         intent.putExtras(bundle);
