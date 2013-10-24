@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 
 import com.pledgeapps.buyingtime.data.Alarm;
+import com.pledgeapps.buyingtime.utils.AlarmHelper;
 import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 
 import java.text.SimpleDateFormat;
@@ -79,8 +80,8 @@ public class AlertActivity extends Activity {
 
     private void silenceAlarm()
     {
-        AlarmReceiver.getCurrent().ringtone.stop();
-        AlarmReceiver.getCurrent().isSounding = false;
+        AlarmHelper.getCurrent().ringtone.stop();
+        AlarmHelper.getCurrent().isSounding = false;
         //vibrator.cancel();
     }
 
@@ -90,25 +91,25 @@ public class AlertActivity extends Activity {
         //vibrator.vibrate(3600 * 1000); //For 1 hour unless dismissed.
 
 
-        AlarmReceiver ar = AlarmReceiver.getCurrent();
+        AlarmHelper helper = AlarmHelper.getCurrent();
 
-        if (!ar.isSounding && ar.pendingAlarm)
+        if (!helper.isSounding && helper.pendingAlarm)
         {
             snoozeButton.setText("Snooze");
             snoozeButton.setEnabled(true);
 
-            if (AlarmReceiver.getCurrent().ringtone==null)
+            if (helper.ringtone==null)
             {
                 Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                 if(alert == null){
                     alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                     if(alert == null) alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
                 }
-                AlarmReceiver.getCurrent().ringtone = RingtoneManager.getRingtone(getApplicationContext(), alert);
+                AlarmHelper.getCurrent().ringtone = RingtoneManager.getRingtone(getApplicationContext(), alert);
             }
-            AlarmReceiver.getCurrent().ringtone.play();
-            AlarmReceiver.getCurrent().isSounding = true;
-            AlarmReceiver.getCurrent().pendingAlarm = false;
+            helper.ringtone.play();
+            helper.isSounding = true;
+            helper.pendingAlarm = false;
         }
     }
 
@@ -162,7 +163,7 @@ public class AlertActivity extends Activity {
 
         Date nextAlarmTime = new Date();
         nextAlarmTime.setTime( nextAlarmTime.getTime() + 1 * 30 * 1000 ); //9 minutes
-        AlarmReceiver.getCurrent().setAlarm(getApplicationContext(), nextAlarmTime);
+        AlarmHelper.getCurrent().setAlarm(getApplicationContext(), nextAlarmTime);
         snoozeButton.setText("Snoozing...");
         snoozeButton.setEnabled(false);
 

@@ -15,38 +15,15 @@ import java.util.Date;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    private PendingIntent pi;
+
     private BroadcastReceiver br;
-    private AlarmManager am;
-    private String namespace = "com.pledgeapps.buyingtime";
-    public boolean isSounding = false;                      //Is the alarm current playing
-    public boolean pendingAlarm = false;                    //Does the alarm need to start playing
-    public Ringtone ringtone;
 
-    private static AlarmReceiver current;
 
-    public static AlarmReceiver getCurrent() {
-        if (current==null) current=new AlarmReceiver();
-        return current;
-    };
+
 
     public AlarmReceiver(){}
 
-    public void setAlarm(Context context, Date alarmTime)
-    {
-        this.am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        //Remove any existing alarms
-        if (this.pi!=null) { am.cancel(pi); }
-        if (alarmTime==null) return;
 
-        //Create the new alarm.
-        Bundle bundle = new Bundle();
-        bundle.putString("ALARM_GUID", "123");
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtras(bundle);
-        this.pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        this.am.set(AlarmManager.RTC_WAKEUP, alarmTime.getTime(), this.pi);
-    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -60,19 +37,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Close dialogs and window shade
         Intent closeDialogs = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         context.sendBroadcast(closeDialogs);
-        showAlert(context, guid);
+        AlarmHelper.getCurrent().showAlert(context, guid);
 
     }
 
-    public void showAlert(Context context, String guid)
-    {
-        current.pendingAlarm = true;                //The instance created here is not the shared "current" instance.
-        Bundle bundle = new Bundle();
-        bundle.putString("ALARM_GUID", guid);
-        Intent i = new Intent(context, AlertActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtras(bundle);
-        context.startActivity(i);
-    }
+
 
 }

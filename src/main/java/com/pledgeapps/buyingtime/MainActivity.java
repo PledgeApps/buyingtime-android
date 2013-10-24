@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pledgeapps.buyingtime.data.Alarms;
+import com.pledgeapps.buyingtime.utils.AlarmHelper;
 import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 
 public class MainActivity extends ActionBarActivity {
@@ -40,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void checkAlarm()
     {
-        if (AlarmReceiver.getCurrent().isSounding) AlarmReceiver.getCurrent().showAlert(this, "");
+        if (AlarmHelper.getCurrent().isSounding) AlarmHelper.getCurrent().showAlert(this, "");
     }
 
 
