@@ -37,7 +37,7 @@ public class Alarm {
         if (displayHour>11) { displayHour = displayHour-12; pm=true; }
         if (displayHour==0) displayHour = 12;
         String result = displayHour + ":" + String.format("%02d", this.minute);
-        if (pm) result += " PM"; result += " AM";
+        if (pm) result += " PM"; else result += " AM";
         return result;
     }
 
@@ -66,8 +66,10 @@ public class Alarm {
         this.nextAlarmTime = null;
         this.nextNotificationTime = null;
 
-        if (this.active && this.daysOfWeek.length==0)
+        if (this.active && this.daysOfWeek.length>0)
         {
+
+
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.HOUR_OF_DAY,this.hour);
             cal.set(Calendar.MINUTE,this.minute);
@@ -80,7 +82,7 @@ public class Alarm {
             while (this.nextAlarmTime==null)
             {
                 //Should the alarm fire on this day of the week?
-                if (Arrays.asList(this.daysOfWeek).contains(cal.get(Calendar.DAY_OF_WEEK) - 1))
+                if (contains(this.daysOfWeek, cal.get(Calendar.DAY_OF_WEEK) - 1))
                 {
                     this.nextAlarmTime = cal.getTime();
                     this.nextNotificationTime = this.nextAlarmTime;
@@ -90,6 +92,11 @@ public class Alarm {
             }
         }
 
+    }
+
+    public boolean contains(final int[] array, final int key) {
+        Arrays.sort(array);
+        return Arrays.binarySearch(array, key) != -1;
     }
 
 }

@@ -7,5 +7,5 @@
         </LinearLayout>
         <TextView android:id="@+id/pledge" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
     </LinearLayout>
-    <ToggleButton android:id="@+id/activeToggle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textOn="On" android:textOff="Off" android:focusable="false" />
+    <ToggleButton android:id="@+id/activeToggle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textOn="On" android:textOff="Off" android:focusable="false" android:layout_margin="15dp" />
 </LinearLayout>

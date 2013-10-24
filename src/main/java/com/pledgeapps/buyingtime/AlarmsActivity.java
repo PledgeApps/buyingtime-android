@@ -75,7 +75,8 @@ public class AlarmsActivity extends Activity {
         Alarms alarms = Alarms.getCurrent();
         alarms.updateNextAlarmTime();
         alarms.save(getApplicationContext());
-        AlarmReceiver.getCurrent().setAlarm(getApplicationContext(), new Date());
+        Date nextAlarmTime = alarms.getNextAlarmTime();
+        if (nextAlarmTime!=null) AlarmReceiver.getCurrent().setAlarm(getApplicationContext(), nextAlarmTime);
     }
 
     private void selectAlarm(int alarmIndex)

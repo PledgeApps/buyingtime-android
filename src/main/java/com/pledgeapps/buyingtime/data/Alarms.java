@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class Alarms extends ArrayList<Alarm> {
@@ -28,6 +29,19 @@ public class Alarms extends ArrayList<Alarm> {
         {
             a.updateNextAlarmTime();
         }
+    }
+
+    public Date getNextAlarmTime()
+    {
+        Date result = null;
+        for (Alarm a : this)
+        {
+            if (a.nextAlarmTime!=null)
+            {
+                if (result==null || a.nextAlarmTime.before(result)) result = a.nextAlarmTime;
+            }
+        }
+        return result;
     }
 
     public void save(Context context)

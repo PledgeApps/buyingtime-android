@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new com.pledgeapps.buyingtime.MainFragment())
                     .commit();
             Alarms.load(getApplicationContext());
-            registerReceiver(AlarmReceiver.getCurrent(), new IntentFilter(getString(R.string.namespace)));
+           // registerReceiver(AlarmReceiver.getCurrent(), new IntentFilter(getString(R.string.namespace)));
         }
     }
 

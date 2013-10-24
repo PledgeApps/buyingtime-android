@@ -2,6 +2,7 @@ package com.pledgeapps.buyingtime;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
@@ -32,6 +33,7 @@ public class AlertActivity extends Activity {
     SimpleDateFormat formatter = new SimpleDateFormat("h:mma");
     Vibrator vibrator;
     Ringtone ringtone;
+    Date launchTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +55,18 @@ public class AlertActivity extends Activity {
         dismissButton = (Button) findViewById(R.id.dismissButton);
 
         snoozeButton.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {snooze();}} );
-        dismissButton.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {dismiss();}} );
-
+        dismissButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
         refreshHandler= new Handler();
         refreshHandler.postDelayed(refreshRunnable, 1000);
         updateScreen(true);
         soundAlarm();
 
+        launchTime = new Date();
 
         // Register to get the alarm killed intent.
         //registerReceiver(mReceiver, new IntentFilter(Alarms.ALARM_KILLED));
@@ -90,6 +96,7 @@ public class AlertActivity extends Activity {
     }
 
 
+
     private Runnable refreshRunnable = new Runnable() {
         public void run() {
             try {
@@ -111,17 +118,22 @@ public class AlertActivity extends Activity {
     }
 
 
-    @Override
+
     public void onPause()
     {
-        new Thread(new Runnable() {
-            public void run() {
-                silenceAlarm();
-                //snooze();
-            }
-        }).start();
+        //The activity will pause and resume when triggered while the screen is locked.
+        //Check if the response time was too quick for a human and don't snooze.
+        if ( (new Date().getTime() - launchTime.getTime()) > 100 )
+        {
+            new Thread(new Runnable() {
+                public void run() {
+                    snooze();
+                }
+            }).start();
+        }
         super.onPause();
     }
+
 
 
 
