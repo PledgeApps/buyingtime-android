@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.pledgeapps.buyingtime.data.Alarm;
+import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,14 +34,10 @@ public class AlertActivity extends Activity {
     String previousDisplayTime = "";
     SimpleDateFormat formatter = new SimpleDateFormat("h:mma");
     Vibrator vibrator;
-    Ringtone ringtone;
-    Date launchTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
@@ -66,18 +64,23 @@ public class AlertActivity extends Activity {
         updateScreen(true);
         soundAlarm();
 
-        launchTime = new Date();
 
         // Register to get the alarm killed intent.
         //registerReceiver(mReceiver, new IntentFilter(Alarms.ALARM_KILLED));
+    }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        soundAlarm();
     }
 
 
     private void silenceAlarm()
     {
-        ringtone.stop();
+        AlarmReceiver.getCurrent().ringtone.stop();
+        AlarmReceiver.getCurrent().isSounding = false;
         //vibrator.cancel();
     }
 
@@ -86,13 +89,27 @@ public class AlertActivity extends Activity {
         //vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         //vibrator.vibrate(3600 * 1000); //For 1 hour unless dismissed.
 
-        Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        if(alert == null){
-            alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            if(alert == null) alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+
+        AlarmReceiver ar = AlarmReceiver.getCurrent();
+
+        if (!ar.isSounding && ar.pendingAlarm)
+        {
+            snoozeButton.setText("Snooze");
+            snoozeButton.setEnabled(true);
+
+            if (AlarmReceiver.getCurrent().ringtone==null)
+            {
+                Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                if(alert == null){
+                    alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    if(alert == null) alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+                }
+                AlarmReceiver.getCurrent().ringtone = RingtoneManager.getRingtone(getApplicationContext(), alert);
+            }
+            AlarmReceiver.getCurrent().ringtone.play();
+            AlarmReceiver.getCurrent().isSounding = true;
+            AlarmReceiver.getCurrent().pendingAlarm = false;
         }
-        ringtone = RingtoneManager.getRingtone(getApplicationContext(), alert);
-        ringtone.play();
     }
 
 
@@ -118,12 +135,14 @@ public class AlertActivity extends Activity {
     }
 
 
-
+/*
     public void onPause()
     {
         //The activity will pause and resume when triggered while the screen is locked.
         //Check if the response time was too quick for a human and don't snooze.
-        if ( (new Date().getTime() - launchTime.getTime()) > 100 )
+        //The alarm can still be dismissed or snoozed in this timeframe by pushing one of those
+        //buttons
+        if ( (new Date().getTime() - launchTime.getTime()) > 300 )
         {
             new Thread(new Runnable() {
                 public void run() {
@@ -133,13 +152,20 @@ public class AlertActivity extends Activity {
         }
         super.onPause();
     }
-
+*/
 
 
 
     private void snooze()
     {
         silenceAlarm();
+
+        Date nextAlarmTime = new Date();
+        nextAlarmTime.setTime( nextAlarmTime.getTime() + 1 * 30 * 1000 ); //9 minutes
+        AlarmReceiver.getCurrent().setAlarm(getApplicationContext(), nextAlarmTime);
+        snoozeButton.setText("Snoozing...");
+        snoozeButton.setEnabled(false);
+
         //finish();
     }
 

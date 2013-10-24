@@ -1,6 +1,7 @@
 package com.pledgeapps.buyingtime;
 
 
+import android.app.AlarmManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
@@ -28,6 +29,18 @@ public class MainActivity extends ActionBarActivity {
             Alarms.load(getApplicationContext());
            // registerReceiver(AlarmReceiver.getCurrent(), new IntentFilter(getString(R.string.namespace)));
         }
+        checkAlarm();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkAlarm();
+    }
+
+    private void checkAlarm()
+    {
+        if (AlarmReceiver.getCurrent().isSounding) AlarmReceiver.getCurrent().showAlert(this, "");
     }
 
 
