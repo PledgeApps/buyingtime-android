@@ -17,6 +17,7 @@ import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 public class MainActivity extends ActionBarActivity {
 
     private static final int ACTIVITY_ALARMS=101;
+    private static final int ACTIVITY_DONATE=102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +56,16 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
         switch (item.getItemId()) {
             case R.id.action_alarms:
-                Intent i = new Intent(this, AlarmsActivity.class);
+                i = new Intent(this, AlarmsActivity.class);
                 startActivityForResult(i, ACTIVITY_ALARMS);
+                break;
+            case R.id.action_donate:
+                i = new Intent(this, DonateActivity.class);
+                startActivityForResult(i, ACTIVITY_DONATE);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

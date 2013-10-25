@@ -1,3 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_alarms" android:title="@string/action_alarms" android:orderInCategory="100" app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_donate" android:title="@string/action_donate" android:orderInCategory="100" app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_alarms" android:title="@string/action_alarms" android:orderInCategory="101" app:showAsAction="always" />
 </menu>

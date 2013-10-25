@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="15sp">
+
+    <TextView android:id="@+id/currentPledge" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textStyle="bold" android:textSize="20sp" android:gravity="center" />
+    <TextView android:id="@+id/totalDonated" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textStyle="bold" android:textSize="20sp" android:gravity="center" />
+    <TextView android:id="@+id/explanation" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Google Play requires all in-app purchases to be for predefined dollar amounts.  Please select an amount below, which will be deducted from your current pledge after payment." />
+
+
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="15sp">
+        <Button android:id="@+id/donateButton1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$1" />
+        <Button android:id="@+id/donateButton2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$2" />
+        <Button android:id="@+id/donateButton3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$3" />
+        <Button android:id="@+id/donateButton4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$4" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="15sp">
+        <Button android:id="@+id/donateButton5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$5" />
+        <Button android:id="@+id/donateButton10" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$10" />
+        <Button android:id="@+id/donateButton20" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$20" />
+    </LinearLayout>
+
+</LinearLayout>
