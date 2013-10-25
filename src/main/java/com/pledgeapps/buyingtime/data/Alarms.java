@@ -31,14 +31,14 @@ public class Alarms extends ArrayList<Alarm> {
         }
     }
 
-    public Date getNextAlarmTime()
+    public Alarm getNextAlarm()
     {
-        Date result = null;
+        Alarm result = null;
         for (Alarm a : this)
         {
             if (a.nextAlarmTime!=null)
             {
-                if (result==null || a.nextAlarmTime.before(result)) result = a.nextAlarmTime;
+                if (result==null || a.nextAlarmTime.before(result.nextAlarmTime)) result = a;
             }
         }
         return result;
@@ -65,6 +65,14 @@ public class Alarms extends ArrayList<Alarm> {
         }
     }
 
+    public Alarm getByGuid(String guid)
+    {
+        for (Alarm a : this)
+        {
+            if (a.guid==guid) return a;
+        }
+        return null;
+    }
 
 
 }

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.PowerManager;
 
 import com.pledgeapps.buyingtime.AlertActivity;
+import com.pledgeapps.buyingtime.data.Alarm;
+import com.pledgeapps.buyingtime.data.Alarms;
 
 import java.util.Date;
 
@@ -29,6 +31,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String guid = intent.getStringExtra("ALARM_GUID");
+        Alarm alarm = Alarms.getCurrent().getByGuid(guid);
+        if (alarm==null) return;
+
 
         PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "BUYINGTIMEALARM");
@@ -37,7 +42,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Close dialogs and window shade
         Intent closeDialogs = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         context.sendBroadcast(closeDialogs);
-        AlarmHelper.getCurrent().showAlert(context, guid);
+        AlarmHelper.getCurrent().showAlert(context, alarm);
 
     }
 

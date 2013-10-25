@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 
 import com.pledgeapps.buyingtime.data.Alarm;
+import com.pledgeapps.buyingtime.data.Alarms;
+import com.pledgeapps.buyingtime.data.Transaction;
+import com.pledgeapps.buyingtime.data.Transactions;
 import com.pledgeapps.buyingtime.utils.AlarmHelper;
 import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 
@@ -29,12 +32,17 @@ public class AlertActivity extends Activity {
 
 
     TextView currentTime;
+    TextView alarmTimeText;
+    TextView oversleptText;
+    TextView chargeText;
+
     Button snoozeButton;
     Button dismissButton;
     Handler refreshHandler;
     String previousDisplayTime = "";
     SimpleDateFormat formatter = new SimpleDateFormat("h:mma");
     Vibrator vibrator;
+    Alarm alarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +54,14 @@ public class AlertActivity extends Activity {
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-
         setContentView(R.layout.activity_alert);
 
+        loadAlarm();
+
         currentTime = (TextView) findViewById(R.id.currentTime);
+        alarmTimeText = (TextView) findViewById(R.id.alarmTimeText);
+        oversleptText = (TextView) findViewById(R.id.oversleptText);
+        chargeText = (TextView) findViewById(R.id.chargeText);
         snoozeButton = (Button) findViewById(R.id.snoozeButton);
         dismissButton = (Button) findViewById(R.id.dismissButton);
 
@@ -62,6 +74,9 @@ public class AlertActivity extends Activity {
 
         refreshHandler= new Handler();
         refreshHandler.postDelayed(refreshRunnable, 1000);
+
+
+
         updateScreen(true);
         soundAlarm();
 
@@ -74,6 +89,7 @@ public class AlertActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        loadAlarm();
         soundAlarm();
     }
 
@@ -131,29 +147,15 @@ public class AlertActivity extends Activity {
         if (!displayTime.equals(previousDisplayTime))
         {
             currentTime.setText(displayTime);
+            alarmTimeText.setText("Alarm set for: " + formatter.format(alarm.nextAlarmTime).toLowerCase().replace("m", ""));
+            oversleptText.setText("Minutes overslept: " + Integer.toString(alarm.getMinutesOverslept()) );
+            String displayPledge = "$" + String.format("%1.2f", alarm.getCost());
+            chargeText.setText("Total pledge: " + displayPledge );
+
             previousDisplayTime=displayTime;
         }
     }
 
-
-/*
-    public void onPause()
-    {
-        //The activity will pause and resume when triggered while the screen is locked.
-        //Check if the response time was too quick for a human and don't snooze.
-        //The alarm can still be dismissed or snoozed in this timeframe by pushing one of those
-        //buttons
-        if ( (new Date().getTime() - launchTime.getTime()) > 300 )
-        {
-            new Thread(new Runnable() {
-                public void run() {
-                    snooze();
-                }
-            }).start();
-        }
-        super.onPause();
-    }
-*/
 
 
 
@@ -161,9 +163,9 @@ public class AlertActivity extends Activity {
     {
         silenceAlarm();
 
-        Date nextAlarmTime = new Date();
-        nextAlarmTime.setTime( nextAlarmTime.getTime() + 1 * 30 * 1000 ); //9 minutes
-        AlarmHelper.getCurrent().setAlarm(getApplicationContext(), nextAlarmTime);
+        //Date nextAlarmTime = new Date();
+        alarm.nextNotificationTime.setTime( alarm.nextNotificationTime.getTime() + 9 * 60 * 1000 ); //9 minutes
+        AlarmHelper.getCurrent().setAlarm(getApplicationContext(), alarm);
         snoozeButton.setText("Snoozing...");
         snoozeButton.setEnabled(false);
 
@@ -173,8 +175,25 @@ public class AlertActivity extends Activity {
     private void dismiss()
     {
         silenceAlarm();
+        if (alarm.getCost()>0)
+        {
+            Transaction t = new Transaction();
+            t.amount = alarm.getCost();
+            t.date = new Date();
+            Transactions.getCurrent().add(t);
+            Transactions.getCurrent().save(this);
+        }
+        AlarmHelper.getCurrent().updateAlarms(getApplicationContext());
         finish();
+    }
 
+    private void loadAlarm()
+    {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            String guid = extras.getString("ALARM_GUID");
+            this.alarm = Alarms.getCurrent().getByGuid(guid);
+        }
     }
 
 

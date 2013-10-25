@@ -13,6 +13,7 @@ public class Alarm {
     public int[] daysOfWeek;
     public int graceMinutes;
     public int centsPerMinute;
+    public String guid;
 
     public Date nextAlarmTime;              //This is the date/time the alarm is set for. (does not update when snoozed)
     public Date nextNotificationTime;       //This is the date/time it will next beep (updates when snoozed)
@@ -27,6 +28,7 @@ public class Alarm {
         a.daysOfWeek = new int[]{1,2,3,4,5};
         a.graceMinutes = 9;
         a.centsPerMinute = 11;
+        a.guid = java.util.UUID.randomUUID().toString();
         return a;
     }
 
@@ -85,14 +87,33 @@ public class Alarm {
                 if (contains(this.daysOfWeek, cal.get(Calendar.DAY_OF_WEEK) - 1))
                 {
                     this.nextAlarmTime = cal.getTime();
-                    this.nextNotificationTime = this.nextAlarmTime;
+                    this.nextNotificationTime = new Date(this.nextAlarmTime.getTime());
                 } else {
                     cal.add(Calendar.DATE,1);
                 }
             }
         }
-
     }
+
+    public int getMinutesOverslept()
+    {
+        int result = (int)( (new Date().getTime() - this.nextAlarmTime.getTime()) / (1000 * 60) );
+        if (result<0) result = 0;
+        return result;
+    }
+
+    public double getCost()
+    {
+        double result = 0;
+        int minutesOverslept = getMinutesOverslept();
+        if (minutesOverslept > this.graceMinutes)
+        {
+            int minutesCharged = minutesOverslept - graceMinutes;
+            result = minutesCharged * this.centsPerMinute / 100.0;
+        }
+        return result;
+    }
+
 
     public boolean contains(final int[] array, final int key) {
         Arrays.sort(array);

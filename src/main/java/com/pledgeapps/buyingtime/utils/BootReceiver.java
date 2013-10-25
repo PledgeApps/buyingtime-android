@@ -24,7 +24,7 @@ public class BootReceiver extends BroadcastReceiver  {
             Alarms.load(context);
             Alarms alarms = Alarms.getCurrent();
             alarms.updateNextAlarmTime();
-            AlarmHelper.getCurrent().setAlarm(context, alarms.getNextAlarmTime());
+            AlarmHelper.getCurrent().setAlarm(context, alarms.getNextAlarm());
 
 
 

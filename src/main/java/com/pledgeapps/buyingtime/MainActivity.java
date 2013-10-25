@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pledgeapps.buyingtime.data.Alarms;
+import com.pledgeapps.buyingtime.data.Transactions;
 import com.pledgeapps.buyingtime.utils.AlarmHelper;
 import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 
@@ -28,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new com.pledgeapps.buyingtime.MainFragment())
                     .commit();
             Alarms.load(getApplicationContext());
+            Transactions.load(getApplicationContext());
            // registerReceiver(AlarmReceiver.getCurrent(), new IntentFilter(getString(R.string.namespace)));
         }
         checkAlarm();
@@ -41,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void checkAlarm()
     {
-        if (AlarmHelper.getCurrent().isSounding) AlarmHelper.getCurrent().showAlert(this, "");
+        if (AlarmHelper.getCurrent().isSounding) AlarmHelper.getCurrent().showAlert(this, Alarms.getCurrent().getNextAlarm());
     }
 
 

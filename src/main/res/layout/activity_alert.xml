@@ -4,8 +4,11 @@
     <LinearLayout android:layout_height="0px" android:layout_width="wrap_content" android:layout_weight="30" android:layout_gravity="center">
         <Button android:layout_height="wrap_content" android:layout_width="200sp" android:id="@+id/dismissButton" android:text="Dismiss"  android:layout_gravity="center_vertical"  android:background="@color/dark_red" />
     </LinearLayout>
-    <LinearLayout android:layout_height="0px" android:layout_width="wrap_content" android:layout_weight="30" android:layout_gravity="center">
+    <LinearLayout android:layout_height="0px" android:layout_width="wrap_content" android:layout_weight="30" android:layout_gravity="center" android:orientation="vertical">
         <TextView android:id="@+id/currentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textSize="70sp" android:layout_gravity="center_vertical" />
+        <TextView android:id="@+id/alarmTimeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="center_vertical" />
+        <TextView android:id="@+id/oversleptText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="center_vertical" />
+        <TextView android:id="@+id/chargeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="center_vertical" />
     </LinearLayout>
     <LinearLayout android:layout_height="0px" android:layout_width="wrap_content" android:layout_weight="30" android:layout_gravity="center"  >
         <Button android:layout_height="wrap_content" android:layout_width="200sp" android:id="@+id/snoozeButton" android:text="Snooze" android:layout_gravity="center_vertical" android:background="@color/dark_green" android:textColor="@android:color/white" />

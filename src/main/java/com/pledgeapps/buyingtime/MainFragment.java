@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pledgeapps.buyingtime.R;
+import com.pledgeapps.buyingtime.data.Transaction;
+import com.pledgeapps.buyingtime.data.Transactions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,6 +26,8 @@ public class MainFragment extends Fragment {
     String previousDisplayTime = "";
     Handler refreshHandler;
     TextView currentTime;
+    TextView currentPledge;
+    TextView totalDonated;
     SimpleDateFormat formatter = new SimpleDateFormat("h:mma");
 
 
@@ -39,9 +43,18 @@ public class MainFragment extends Fragment {
 
 
         currentTime = (TextView) rootView.findViewById(R.id.currentTime);
+        currentPledge = (TextView) rootView.findViewById(R.id.currentPledge);
+        totalDonated = (TextView) rootView.findViewById(R.id.totalDonated);
+
         updateScreen(true);
         return rootView;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateScreen(true);
     }
 
 
@@ -60,8 +73,10 @@ public class MainFragment extends Fragment {
         String displayTime = formatter.format(new Date()).toLowerCase().replace("m", "");
         if (!displayTime.equals(previousDisplayTime))
         {
-            //currentTime.setText("Jeremy");
             currentTime.setText(displayTime);
+            currentPledge.setText("Current Pledge: " + "$" + String.format("%1.2f", Transactions.getCurrent().getCurrentPledge()));
+            totalDonated.setText("Total Donated: " + "$" + String.format("%1.2f", Transactions.getCurrent().getTotalDonated()));
+
             previousDisplayTime=displayTime;
         }
     }
