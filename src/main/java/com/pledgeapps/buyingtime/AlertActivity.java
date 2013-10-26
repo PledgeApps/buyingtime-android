@@ -41,7 +41,6 @@ public class AlertActivity extends Activity {
     Handler refreshHandler;
     String previousDisplayTime = "";
     SimpleDateFormat formatter = new SimpleDateFormat("h:mma");
-    Vibrator vibrator;
     Alarm alarm;
 
     @Override
@@ -97,15 +96,13 @@ public class AlertActivity extends Activity {
     private void silenceAlarm()
     {
         AlarmHelper.getCurrent().ringtone.stop();
+        AlarmHelper.getCurrent().vibrator.cancel();
         AlarmHelper.getCurrent().isSounding = false;
         //vibrator.cancel();
     }
 
     private void soundAlarm()
     {
-        //vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        //vibrator.vibrate(3600 * 1000); //For 1 hour unless dismissed.
-
 
         AlarmHelper helper = AlarmHelper.getCurrent();
 
@@ -123,7 +120,12 @@ public class AlertActivity extends Activity {
                 }
                 AlarmHelper.getCurrent().ringtone = RingtoneManager.getRingtone(getApplicationContext(), alert);
             }
+            if (helper.vibrator==null)
+            {
+                helper.vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            }
             helper.ringtone.play();
+            helper.vibrator.vibrate(3600 * 1000); //For 1 hour unless dismissed.
             helper.isSounding = true;
             helper.pendingAlarm = false;
         }

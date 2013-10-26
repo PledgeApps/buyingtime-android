@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.os.Bundle;
+import android.os.Vibrator;
 
 import com.pledgeapps.buyingtime.AlertActivity;
 import com.pledgeapps.buyingtime.data.Alarm;
@@ -20,6 +21,7 @@ public class AlarmHelper {
     public Ringtone ringtone;
     private AlarmManager am;
     private PendingIntent pi;
+    public Vibrator vibrator;
 
     public static AlarmHelper getCurrent() {
         if (current==null) current=new AlarmHelper();
