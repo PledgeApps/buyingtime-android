@@ -22,8 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.pledgeapps.buyingtime.AlarmsActivity" android:label="@string/title_activity_alarms"  />
-        <activity android:name="com.pledgeapps.buyingtime.AlarmActivity" android:label="@string/title_activity_edit_alarm" />
+        <activity android:name="com.pledgeapps.buyingtime.AlarmsActivity" android:label="@string/title_activity_alarms" android:launchMode="singleInstance"  />
+        <activity android:name="com.pledgeapps.buyingtime.AlarmActivity" android:label="@string/title_activity_edit_alarm" android:launchMode="singleInstance" />
         <activity android:name="com.pledgeapps.buyingtime.AlertActivity" android:label="@string/title_activity_alert" android:launchMode="singleInstance" />
         <activity android:name="com.pledgeapps.buyingtime.DonateActivity" android:label="@string/title_activity_donate" />
     </application>
