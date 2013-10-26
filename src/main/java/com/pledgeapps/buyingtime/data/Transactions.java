@@ -28,7 +28,7 @@ public class Transactions extends ArrayList<Transaction> {
         {
             if (t.amount<0) result += t.amount;
         }
-        return result;
+        return -result;
     }
 
     public static Transactions getCurrent() {

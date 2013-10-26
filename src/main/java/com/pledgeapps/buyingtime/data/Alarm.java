@@ -71,7 +71,6 @@ public class Alarm {
         if (this.active && this.daysOfWeek.length>0)
         {
 
-
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.HOUR_OF_DAY,this.hour);
             cal.set(Calendar.MINUTE,this.minute);

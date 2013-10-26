@@ -69,7 +69,7 @@ public class Alarms extends ArrayList<Alarm> {
     {
         for (Alarm a : this)
         {
-            if (a.guid==guid) return a;
+            if (a.guid.equals(guid)) return a;
         }
         return null;
     }
