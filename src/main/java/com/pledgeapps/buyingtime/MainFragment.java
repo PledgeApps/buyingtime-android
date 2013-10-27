@@ -72,6 +72,11 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        updateScreen(true);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         updateScreen(true);

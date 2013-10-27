@@ -4,6 +4,8 @@
     <string name="action_alarms">Alarms</string>
     <string name="action_donate">Donate</string>
     <string name="action_add_alarm">Add</string>
+    <string name="action_set">Set</string>
+    <string name="action_cancel">Cancel</string>
     <string name="title_activity_alarms">Alarms</string>
     <string name="title_activity_edit_alarm">Edit Alarm</string>
     <string name="title_activity_alert">Wake up!</string>

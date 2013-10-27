@@ -68,6 +68,12 @@ public class AlarmsActivity extends ActionBarActivity {
         super.onPause();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        alarmListAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

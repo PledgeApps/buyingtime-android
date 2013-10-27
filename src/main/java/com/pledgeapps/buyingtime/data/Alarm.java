@@ -32,21 +32,28 @@ public class Alarm {
         return a;
     }
 
-    public String getDisplayTime()
+    public static String getDisplayTime(int hour, int minute)
     {
         Boolean pm = false;
-        int displayHour = this.hour;
+        int displayHour = hour;
         if (displayHour>11) { displayHour = displayHour-12; pm=true; }
         if (displayHour==0) displayHour = 12;
-        String result = displayHour + ":" + String.format("%02d", this.minute);
+        String result = displayHour + ":" + String.format("%02d", minute);
         if (pm) result += " PM"; else result += " AM";
         return result;
     }
 
-    public String getDisplayDays()
+
+
+    public String getDisplayTime()
+    {
+        return Alarm.getDisplayTime(this.hour, this.minute);
+    }
+
+    public static String getDisplayDays(int[] daysOfWeek)
     {
         List<String> days = new ArrayList<String>();
-        for (int i : this.daysOfWeek)
+        for (int i : daysOfWeek)
         {
             switch (i)
             {
@@ -60,6 +67,11 @@ public class Alarm {
             }
         }
         return days.toString().replace("[", "").replace("]", "").replace(", ", ",");
+    }
+
+    public String getDisplayDays()
+    {
+        return Alarm.getDisplayDays(this.daysOfWeek);
     }
 
     public void updateNextAlarmTime()

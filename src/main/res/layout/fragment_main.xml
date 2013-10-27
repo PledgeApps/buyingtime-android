@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin" android:paddingRight="@dimen/activity_horizontal_margin" android:paddingTop="@dimen/activity_vertical_margin" android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity$PlaceholderFragment">
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
 
-        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0px" android:layout_weight="1" android:gravity="center">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0px" android:layout_weight="50" android:gravity="center">
             <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center">
                 <TextView android:id="@+id/currentHour" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textSize="90sp" android:text="4"  />
                 <TextView android:id="@+id/currentMinute" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="90sp" android:text=":12" />
@@ -10,12 +10,12 @@
             <TextView android:id="@+id/currentDate" android:layout_width="wrap_content" android:layout_height="0px" android:layout_weight="1" android:textSize="25sp" android:text="SAT, OCTOBER 26" android:layout_gravity="center"  />
         </LinearLayout>
 
-        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0px" android:layout_weight="1" android:gravity="center">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0px" android:layout_weight="25" android:gravity="center">
             <TextView android:id="@+id/alarmTime" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:gravity="center" android:text = "Alarm: 6:00am" />
             <TextView android:id="@+id/alarmRemaining" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:gravity="center" android:text = "in: 4h 23m" />
         </LinearLayout>
 
-        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0px" android:layout_weight="1" android:gravity="bottom">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0px" android:layout_weight="25" android:gravity="bottom">
             <TextView android:id="@+id/currentPledge" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:gravity="center" android:text = "Current Pledge: $1.98" />
             <TextView android:id="@+id/totalDonated" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textSize="20sp" android:gravity="center" android:text = "Total Donated: $5.00" />
         </LinearLayout>

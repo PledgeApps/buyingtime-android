@@ -1,7 +1,13 @@
 package com.pledgeapps.buyingtime;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import com.pledgeapps.buyingtime.data.Alarm;
@@ -18,36 +25,42 @@ import com.pledgeapps.buyingtime.data.Alarms;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlarmActivity extends Activity {
+public class AlarmActivity extends ActionBarActivity {
 
     EditText graceMinutesText;
     EditText centsPerMinuteText;
-    Spinner hourList;
-    Spinner minuteList;
-    RadioGroup periodRadio;
-    CheckBox sundayCheck;
-    CheckBox mondayCheck;
-    CheckBox tuesdayCheck;
-    CheckBox wednesdayCheck;
-    CheckBox thursdayCheck;
-    CheckBox fridayCheck;
-    CheckBox saturdayCheck;
+    Button alarmTimeButton;
+    Button daysButton;
     Button saveButton;
     Button deleteButton;
     ToggleButton activeToggle;
 
-    int selectedHourIndex = 0;
-    int selectedMinuteIndex = 0;
+    String[] daysOfTheWeek = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+    int[] selectedDays = new int[0];
+    int selectedHour = 0;
+    int selectedMinute = 0;
     int alarmIndex = 0;
     Alarm alarm;
-    String[] hours = new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" };
-    String[] minutes = new String[] {
-            "00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
-            "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-            "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-            "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
-            "40", "41", "42", "43", "44", "45", "46", "47", "48", "49",
-            "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"
+
+
+    Handler timeHandler = new Handler() {
+        public void handleMessage(Message m) {
+            Bundle b = m.getData();
+            selectedHour = b.getInt("hour");
+            selectedMinute = b.getInt("minute");
+            alarmTimeButton.setText(Alarm.getDisplayTime(selectedHour,selectedMinute));
+        }
+    };
+
+    Handler daysHandler = new Handler() {
+        public void handleMessage(Message m) {
+            Bundle b = m.getData();
+            ArrayList<Integer> days = (ArrayList<Integer>) b.get("selectedIndexes");
+            selectedDays = new int[days.size()];
+            for (int i=0;i<days.size();i++) selectedDays[i] = days.get(i);
+            daysButton.setText(Alarm.getDisplayDays(selectedDays));
+        }
     };
 
 
@@ -64,35 +77,17 @@ public class AlarmActivity extends Activity {
         activeToggle = (ToggleButton) findViewById(R.id.activeToggle);
         graceMinutesText = (EditText) findViewById(R.id.graceMinutesText);
         centsPerMinuteText = (EditText) findViewById(R.id.centsPerMinuteText);
-        hourList = (Spinner) findViewById(R.id.hourList);
-        minuteList = (Spinner) findViewById(R.id.minuteList);
-        periodRadio = (RadioGroup) findViewById(R.id.periodRadio);
-        sundayCheck = (CheckBox) findViewById(R.id.sundayCheck);
-        mondayCheck = (CheckBox) findViewById(R.id.mondayCheck);
-        tuesdayCheck = (CheckBox) findViewById(R.id.tuesdayCheck);
-        wednesdayCheck = (CheckBox) findViewById(R.id.wednesdayCheck);
-        thursdayCheck = (CheckBox) findViewById(R.id.thursdayCheck);
-        fridayCheck = (CheckBox) findViewById(R.id.fridayCheck);
-        saturdayCheck = (CheckBox) findViewById(R.id.saturdayCheck);
+        alarmTimeButton = (Button) findViewById(R.id.alarmTimeButton);
+        daysButton = (Button) findViewById(R.id.daysButton);
         saveButton = (Button) findViewById(R.id.saveButton);
         deleteButton = (Button) findViewById(R.id.deleteButton);
 
+        alarmTimeButton.setOnClickListener(new View.OnClickListener() {public void onClick(View view) {setTime();}});
+        daysButton.setOnClickListener(new View.OnClickListener() {public void onClick(View view) {setDays();}});
         saveButton.setOnClickListener(new View.OnClickListener() {public void onClick(View view) {save();}});
         deleteButton.setOnClickListener(new View.OnClickListener() {public void onClick(View view) {delete();}});
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, hours);
-        hourList.setAdapter(adapter);
-        hourList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) { selectedHourIndex=pos; }
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, minutes);
-        minuteList.setAdapter(adapter);
-        minuteList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) { selectedMinuteIndex=pos; }
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
 
 
         populateFields();
@@ -103,32 +98,30 @@ public class AlarmActivity extends Activity {
 
     private void populateFields()
     {
+        this.selectedHour = alarm.hour;
+        this.selectedMinute = alarm.minute;
+        this.selectedDays = alarm.daysOfWeek;
+
         activeToggle.setChecked(alarm.active);
         centsPerMinuteText.setText(Integer.toString(alarm.centsPerMinute));
         graceMinutesText.setText(Integer.toString(alarm.graceMinutes));
-        periodRadio.check(R.id.periodAM);
-        selectedHourIndex = alarm.hour;
-        if (selectedHourIndex>11)
-        {
-            selectedHourIndex = selectedHourIndex - 12;
-            periodRadio.check(R.id.periodPM);
-        }
-        selectedHourIndex = selectedHourIndex - 1;
-        hourList.setSelection(selectedHourIndex);
-        selectedMinuteIndex = alarm.minute;
-        minuteList.setSelection(selectedMinuteIndex);
-        for (int i : alarm.daysOfWeek )
-        {
-            switch (i){
-                case 0: sundayCheck.setChecked(true);break;
-                case 1: mondayCheck.setChecked(true);break;
-                case 2: tuesdayCheck.setChecked(true);break;
-                case 3: wednesdayCheck.setChecked(true);break;
-                case 4: thursdayCheck.setChecked(true);break;
-                case 5: fridayCheck.setChecked(true);break;
-                case 6: saturdayCheck.setChecked(true);break;
-            }
-        }
+        alarmTimeButton.setText(alarm.getDisplayTime());
+        daysButton.setText(alarm.getDisplayDays());
+
+    }
+
+    private void setTime()
+    {
+        DialogFragment timeFragment = TimePickerFragment.newInstance(timeHandler, selectedHour, selectedMinute);
+        timeFragment.show(this.getSupportFragmentManager(), "timePicker");
+    }
+
+    private void setDays()
+    {
+        ArrayList<Integer> selectedIndexes = new ArrayList<Integer>();
+        for (int day : selectedDays) selectedIndexes.add(day);
+        DialogFragment daysFragment = DaysOfWeekFragment.newInstance(daysHandler, selectedIndexes);
+        daysFragment.show(this.getSupportFragmentManager(), "dayPicker");
     }
 
     private void delete()
@@ -139,29 +132,17 @@ public class AlarmActivity extends Activity {
 
     private void save()
     {
-        int hour = selectedHourIndex + 1;
-        if (hour==12) hour = 0;
-        if (periodRadio.getCheckedRadioButtonId() == R.id.periodPM) hour += 12;
-        alarm.hour = hour;
-        alarm.minute = selectedMinuteIndex;
+        alarm.minute = selectedMinute;
+        alarm.hour = selectedHour;
+
         alarm.graceMinutes = Integer.parseInt(graceMinutesText.getText().toString());
         alarm.centsPerMinute = Integer.parseInt(centsPerMinuteText.getText().toString());
         alarm.active = activeToggle.isChecked();
-
-        List<Integer> days = new ArrayList<Integer>();
-        if (sundayCheck.isChecked()) days.add(0);
-        if (mondayCheck.isChecked()) days.add(1);
-        if (tuesdayCheck.isChecked()) days.add(2);
-        if (wednesdayCheck.isChecked()) days.add(3);
-        if (thursdayCheck.isChecked()) days.add(4);
-        if (fridayCheck.isChecked()) days.add(5);
-        if (saturdayCheck.isChecked()) days.add(6);
-        alarm.daysOfWeek = new int[days.size()];
-        for (int i =0; i<days.size(); i++) alarm.daysOfWeek[i] = days.get(i).intValue();
-
+        alarm.daysOfWeek = selectedDays;
         if (alarmIndex==-1) Alarms.getCurrent().add(alarm);
 
         this.finish();
     }
+
 
 }
