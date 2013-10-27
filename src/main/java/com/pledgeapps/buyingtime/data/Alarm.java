@@ -52,7 +52,7 @@ public class Alarm {
             {
                 case 0: days.add("Su"); break;
                 case 1: days.add("Mo"); break;
-                case 2: days.add("Th"); break;
+                case 2: days.add("Tu"); break;
                 case 3: days.add("We"); break;
                 case 4: days.add("Th"); break;
                 case 5: days.add("Fr"); break;

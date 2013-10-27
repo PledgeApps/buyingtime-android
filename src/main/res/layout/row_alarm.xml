@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" >
     <LinearLayout android:layout_width="0px" android:layout_height="wrap_content" android:orientation="vertical"  android:layout_weight="100" android:layout_margin="15dp" >
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" >
-            <TextView android:id="@+id/alarmName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="20sp"/>
-            <TextView android:id="@+id/alarmDays" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-        </LinearLayout>
-        <TextView android:id="@+id/pledge" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/alarmName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="20sp" android:text="6:00 AM" />
+        <TextView android:id="@+id/alarmDays" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Su,Mo,Tu,We,Th,Fr,Sa" />
+        <TextView android:id="@+id/pledge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text = "$0.11 / min. after 9 min."/>
     </LinearLayout>
-    <ToggleButton android:id="@+id/activeToggle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textOn="On" android:textOff="Off" android:focusable="false" android:layout_margin="15dp" />
+    <ToggleButton android:id="@+id/activeToggle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textOn="On" android:textOff="Off" android:focusable="false" android:layout_margin="15dp" android:layout_gravity="center" />
 </LinearLayout>

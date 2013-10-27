@@ -31,7 +31,10 @@ import java.util.Date;
 public class AlertActivity extends Activity {
 
 
-    TextView currentTime;
+    TextView currentHour;
+    TextView currentMinute;
+    TextView currentPeriod;
+    TextView currentDate;
     TextView alarmTimeText;
     TextView oversleptText;
     TextView chargeText;
@@ -40,7 +43,11 @@ public class AlertActivity extends Activity {
     Button dismissButton;
     Handler refreshHandler;
     String previousDisplayTime = "";
-    SimpleDateFormat formatter = new SimpleDateFormat("h:mma");
+    SimpleDateFormat timeFormat = new SimpleDateFormat("h:mma");
+    SimpleDateFormat hourFormat = new SimpleDateFormat("h");
+    SimpleDateFormat minuteFormat = new SimpleDateFormat(":mm");
+    SimpleDateFormat periodFormat = new SimpleDateFormat("a");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMMM d");
     Alarm alarm;
 
     @Override
@@ -57,7 +64,10 @@ public class AlertActivity extends Activity {
 
         loadAlarm();
 
-        currentTime = (TextView) findViewById(R.id.currentTime);
+        currentHour = (TextView) findViewById(R.id.currentHour);
+        currentMinute = (TextView) findViewById(R.id.currentMinute);
+        currentPeriod = (TextView) findViewById(R.id.currentPeriod);
+        currentDate = (TextView) findViewById(R.id.currentDate);
         alarmTimeText = (TextView) findViewById(R.id.alarmTimeText);
         oversleptText = (TextView) findViewById(R.id.oversleptText);
         chargeText = (TextView) findViewById(R.id.chargeText);
@@ -145,15 +155,19 @@ public class AlertActivity extends Activity {
 
     public void updateScreen(boolean forceRefresh)
     {
-        String displayTime = formatter.format(new Date()).toLowerCase().replace("m", "");
+        String displayTime = timeFormat.format(new Date()).toLowerCase().replace("m", "");
         if (!displayTime.equals(previousDisplayTime))
         {
-            currentTime.setText(displayTime);
-            alarmTimeText.setText("Alarm set for: " + formatter.format(alarm.nextAlarmTime).toLowerCase().replace("m", ""));
-            oversleptText.setText("Minutes overslept: " + Integer.toString(alarm.getMinutesOverslept()) );
-            String displayPledge = "$" + String.format("%1.2f", alarm.getCost());
-            chargeText.setText("Total pledge: " + displayPledge );
+            Date displayDate = new Date();
+            currentHour.setText( hourFormat.format(displayDate) );
+            currentMinute.setText( minuteFormat.format(displayDate) );
+            currentPeriod.setText( periodFormat.format(displayDate) );
+            currentDate.setText( dateFormat.format(displayDate) );
 
+            alarmTimeText.setText(timeFormat.format(alarm.nextAlarmTime).toLowerCase());
+            oversleptText.setText(Integer.toString(alarm.getMinutesOverslept()) + " min" );
+            String displayPledge = "$" + String.format("%1.2f", alarm.getCost());
+            chargeText.setText(displayPledge );
             previousDisplayTime=displayTime;
         }
     }

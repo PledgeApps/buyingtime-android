@@ -1,38 +1,44 @@
 package com.pledgeapps.buyingtime;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.AdapterView;
-
-import com.pledgeapps.buyingtime.data.Alarm;
-import com.pledgeapps.buyingtime.data.Alarms;
 import com.pledgeapps.buyingtime.utils.AlarmHelper;
-import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 
-import java.util.Date;
-
-
-/**
- * Activity which displays a login screen to the user, offering registration as
- * well.
- */
-public class AlarmsActivity extends Activity {
+public class AlarmsActivity extends ActionBarActivity {
     ListView alarmList;
     AlarmListAdapter alarmListAdapter;
     private static final int ACTIVITY_EDITALARM=110;
 
-    @Override
+    private void saveData()
+    {
+        AlarmHelper.getCurrent().updateAlarms(getApplicationContext());
+    }
+
+    private void selectAlarm(int alarmIndex)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putInt("ALARM_INDEX", alarmIndex);
+        Intent intent = new Intent(this, AlarmActivity.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, ACTIVITY_EDITALARM);
+    }
+
+
+
+
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_alarms);
         alarmList = (ListView) findViewById(R.id.alarmList);
-
 
         alarmList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
@@ -43,7 +49,6 @@ public class AlarmsActivity extends Activity {
 
         alarmListAdapter = new AlarmListAdapter(this);
         alarmList.setAdapter(alarmListAdapter);
-
     }
 
     @Override
@@ -69,21 +74,6 @@ public class AlarmsActivity extends Activity {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.alarms, menu);
         return true;
-    }
-
-    //onPause
-    private void saveData()
-    {
-        AlarmHelper.getCurrent().updateAlarms(getApplicationContext());
-    }
-
-    private void selectAlarm(int alarmIndex)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putInt("ALARM_INDEX", alarmIndex);
-        Intent intent = new Intent(this, AlarmActivity.class);
-        intent.putExtras(bundle);
-        startActivityForResult(intent, ACTIVITY_EDITALARM);
     }
 
     @Override

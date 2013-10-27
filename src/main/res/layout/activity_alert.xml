@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
-    <LinearLayout android:layout_height="0px" android:layout_width="wrap_content" android:layout_weight="30" android:layout_gravity="center">
+    <LinearLayout android:layout_height="0px" android:layout_width="wrap_content" android:layout_weight="20" android:layout_gravity="center">
         <Button android:layout_height="wrap_content" android:layout_width="200sp" android:id="@+id/dismissButton" android:text="Dismiss"  android:layout_gravity="center_vertical"  android:background="@color/dark_red" />
     </LinearLayout>
-    <LinearLayout android:layout_height="0px" android:layout_width="wrap_content" android:layout_weight="30" android:layout_gravity="center" android:orientation="vertical">
-        <TextView android:id="@+id/currentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textSize="70sp" android:layout_gravity="center_vertical" />
-        <TextView android:id="@+id/alarmTimeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="center_vertical" />
-        <TextView android:id="@+id/oversleptText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="center_vertical" />
-        <TextView android:id="@+id/chargeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="center_vertical" />
+    <LinearLayout android:layout_height="0px" android:layout_width="fill_parent" android:layout_weight="60" android:gravity="center" android:orientation="vertical">
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center">
+            <TextView android:id="@+id/currentHour" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textSize="90sp" android:text="6"  />
+            <TextView android:id="@+id/currentMinute" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="90sp" android:text=":12" />
+            <TextView android:id="@+id/currentPeriod" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="25sp" android:text="AM" android:layout_gravity="top" android:paddingTop="23dp" />
+        </LinearLayout>
+        <TextView android:id="@+id/currentDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="25sp" android:text="SAT, OCTOBER 26" android:gravity="center"  />
+
+        <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="60" android:gravity="center" android:orientation="horizontal">
+            <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="60" android:gravity="center" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="right" android:textSize="20sp" android:text="Alarm: " />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="right" android:textSize="20sp" android:text="Overslept: " />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="right" android:textSize="20sp" android:text="Total Pledge:  " />
+            </LinearLayout>
+            <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="60" android:gravity="center" android:orientation="vertical">
+                <TextView android:id="@+id/alarmTimeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="left" android:textSize="20sp" android:text="6:00am" />
+                <TextView android:id="@+id/oversleptText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="left" android:textSize="20sp" android:text="12 min" />
+                <TextView android:id="@+id/chargeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_gravity="left" android:textSize="20sp" android:text="$1.13" />
+            </LinearLayout>
+        </LinearLayout>
+
+
     </LinearLayout>
-    <LinearLayout android:layout_height="0px" android:layout_width="wrap_content" android:layout_weight="30" android:layout_gravity="center"  >
+    <LinearLayout android:layout_height="0px" android:layout_width="wrap_content" android:layout_weight="20" android:layout_gravity="center"  >
         <Button android:layout_height="wrap_content" android:layout_width="200sp" android:id="@+id/snoozeButton" android:text="Snooze" android:layout_gravity="center_vertical" android:background="@color/dark_green" android:textColor="@android:color/white" />
     </LinearLayout>
 

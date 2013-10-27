@@ -94,8 +94,6 @@ public class MainFragment extends Fragment {
         if (!displayTime.equals(previousDisplayTime) || forceRefresh)
         {
             Date displayDate = new Date();
-            Calendar c = Calendar.getInstance();
-            //currentTime.setText(displayTime);
             currentHour.setText( hourFormat.format(displayDate) );
             currentMinute.setText( minuteFormat.format(displayDate) );
             currentPeriod.setText( periodFormat.format(displayDate) );

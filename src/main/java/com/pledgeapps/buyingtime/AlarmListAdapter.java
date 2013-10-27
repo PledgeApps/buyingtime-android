@@ -51,7 +51,7 @@ public class AlarmListAdapter extends BaseAdapter {
 
         Alarm a = Alarms.getCurrent().get(position);
         holder.name.setText(a.getDisplayTime());
-        if (a.getDisplayDays()!="") holder.alarmDays.setText(" - " + a.getDisplayDays());
+        if (a.getDisplayDays()!="") holder.alarmDays.setText(a.getDisplayDays());
         if (a.centsPerMinute>0)
         {
             double dollars = a.centsPerMinute / 100.0;
