@@ -95,8 +95,13 @@ public class MainFragment extends Fragment {
 
     public void updateScreen(boolean forceRefresh)
     {
+        Alarm a = Alarms.getCurrent().getNextAlarm();
+
         String displayTime = timeFormat.format(new Date()).toLowerCase().replace("m", "");
-        if (!displayTime.equals(previousDisplayTime) || forceRefresh)
+        String displayAlarmTime = "";
+        if (a!=null) displayAlarmTime = a.getDisplayTime();
+
+        if (!displayTime.equals(previousDisplayTime) || !alarmTime.getText().equals(displayAlarmTime) || forceRefresh)
         {
             Date displayDate = new Date();
             currentHour.setText( hourFormat.format(displayDate) );
@@ -104,7 +109,7 @@ public class MainFragment extends Fragment {
             currentPeriod.setText( periodFormat.format(displayDate) );
             currentDate.setText( dateFormat.format(displayDate) );
 
-            Alarm a = Alarms.getCurrent().getNextAlarm();
+
             if (a==null)
             {
                 alarmTime.setText("");

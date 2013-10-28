@@ -71,6 +71,7 @@ public class DonateActivity extends Activity {
                 mHelper.queryInventoryAsync(inventoryListener);
             }
         });
+        refreshScreen();
     }
 
     IabHelper.QueryInventoryFinishedListener inventoryListener = new IabHelper.QueryInventoryFinishedListener() {
@@ -89,6 +90,13 @@ public class DonateActivity extends Activity {
             }
         }
     };
+
+
+    public void refreshScreen()
+    {
+        currentPledge.setText("Current Pledge: " + "$" + String.format("%1.2f", Transactions.getCurrent().getCurrentPledge()));
+        totalDonated.setText("Total Donated: " + "$" + String.format("%1.2f", Transactions.getCurrent().getTotalDonated()));
+    }
 
     public void donate(int amount)
     {

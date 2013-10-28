@@ -12,6 +12,7 @@ import com.pledgeapps.buyingtime.AlertActivity;
 import com.pledgeapps.buyingtime.data.Alarm;
 import com.pledgeapps.buyingtime.data.Alarms;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AlarmHelper {
@@ -33,7 +34,7 @@ public class AlarmHelper {
     {
         this.am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         //Remove any existing alarms
-        if (this.pi!=null) { am.cancel(pi); }
+        if (this.pi!=null) { am.cancel(pi); this.pi.cancel(); }
     }
 
     public void setAlarm(Context context, Alarm alarm)
@@ -41,7 +42,6 @@ public class AlarmHelper {
         disableAllAlarms(context);
         if (alarm.nextNotificationTime==null) return;
 
-        //Create the new alarm.
         Bundle bundle = new Bundle();
         bundle.putString("ALARM_GUID", alarm.guid );
         Intent intent = new Intent(context, AlarmReceiver.class);
