@@ -77,7 +77,7 @@ public class AlertActivity extends Activity {
         snoozeButton.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {snooze();}} );
         dismissButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                dismiss();
+                snooze();
             }
         });
 
