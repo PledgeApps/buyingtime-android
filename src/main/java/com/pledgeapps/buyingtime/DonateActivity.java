@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pledgeapps.buyingtime.billing.IabHelper;
@@ -23,13 +25,8 @@ public class DonateActivity extends Activity {
     TextView currentPledge;
     TextView totalDonated;
     TextView explanation;
-    Button donateButton1;
-    Button donateButton2;
-    Button donateButton3;
-    Button donateButton4;
-    Button donateButton5;
-    Button donateButton10;
-    Button donateButton20;
+    Button donateButton;
+    Spinner donationAmount;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,23 +38,17 @@ public class DonateActivity extends Activity {
         totalDonated = (TextView) findViewById(R.id.totalDonated);
         explanation = (TextView) findViewById(R.id.explanation);
 
+        donationAmount = (Spinner) findViewById(R.id.donationAmount);
+        donateButton = (Button) findViewById(R.id.donateButton);
 
-        donateButton1 = (Button) findViewById(R.id.donateButton1);
-        donateButton2 = (Button) findViewById(R.id.donateButton2);
-        donateButton3 = (Button) findViewById(R.id.donateButton3);
-        donateButton4 = (Button) findViewById(R.id.donateButton4);
-        donateButton5 = (Button) findViewById(R.id.donateButton5);
-        donateButton10 = (Button) findViewById(R.id.donateButton10);
-        donateButton20 = (Button) findViewById(R.id.donateButton20);
+        donateButton.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donate();}} );
 
 
-        donateButton1.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donate(1);}} );
-        donateButton2.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donate(2);}} );
-        donateButton3.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donate(3);}} );
-        donateButton4.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donate(4);}} );
-        donateButton5.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donate(5);}} );
-        donateButton10.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donate(10);}} );
-        donateButton20.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donate(20);}} );
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.donation_amounts, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        donationAmount.setAdapter(adapter);
+
 
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArb6ycGs7oQ3fCZvCqa9jT/z+W9zNdYvOFQOJfg3/qYE9b43HVk+18H0NEuvRztrNnDB7XkoRtNyi4/0IXLlDdMOF+ZpoLG+MqLB/WZwwBcbGbUNkVcNl8/fPCl9bnutQ5Xn7jqOjQ3UBCsjzDj/Dl5fex0P4WESVDtuGRWagfFMkqxexGoPYc6ZjhDrHWMSrHUgrMiYmnFjVNyM++sFwzoBQSasTUDN6KfJDjuqvPvvJQo600BWHsMjDi6aAw8fIW6ydJhbb8PwaxLEEbFL0H8aN5/XHOUboUzIHJDq6rMwheNm+ygP4lafk0DKKTnAtwR6zRypjfTYAO7KdAV7DXwIDAQAB";
         mHelper = new IabHelper(this, base64EncodedPublicKey);
@@ -92,14 +83,19 @@ public class DonateActivity extends Activity {
     };
 
 
+
+
     public void refreshScreen()
     {
         currentPledge.setText("Current Pledge: " + "$" + String.format("%1.2f", Transactions.getCurrent().getCurrentPledge()));
         totalDonated.setText("Total Donated: " + "$" + String.format("%1.2f", Transactions.getCurrent().getTotalDonated()));
     }
 
-    public void donate(int amount)
+    public void donate()
     {
+        Object selectedItem = donationAmount.getSelectedItem();
+        String selectedValue = selectedItem.toString().replace("$","").replace(".00","");
+        int amount = Integer.parseInt(selectedValue);
         String sku = "donate_" + Integer.toString(amount);
         mHelper.launchPurchaseFlow(this, sku, RC_REQUEST, purchaseListener, "");
     }
