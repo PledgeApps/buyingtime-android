@@ -20,13 +20,25 @@
 
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="5dp" >
                 <TextView android:layout_width="0px" android:layout_height="wrap_content"  android:gravity="left" android:text="Pledge Per Minute:"  android:layout_weight="40" />
-                <EditText android:id="@+id/centsPerMinuteText" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="60" android:inputType="number" />
+                <LinearLayout android:layout_width="0px" android:layout_height="wrap_content" android:orientation="horizontal"  android:layout_weight="60" >
+                    <EditText android:id="@+id/centsPerMinuteText" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="60" android:inputType="number" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="cents" />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="5dp" >
-                <TextView android:layout_width="0px" android:layout_height="wrap_content"  android:gravity="left" android:text="Grace Minutes:"  android:layout_weight="40" />
-                <EditText android:id="@+id/graceMinutesText" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="60" android:inputType="number" />
+                <TextView android:layout_width="0px" android:layout_height="wrap_content"  android:gravity="left" android:text="Grace Period:"  android:layout_weight="40" />
+                <LinearLayout android:layout_width="0px" android:layout_height="wrap_content" android:orientation="horizontal"  android:layout_weight="60" >
+                    <EditText android:id="@+id/graceMinutesText" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="60" android:inputType="number" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="minutes" />
+                </LinearLayout>
             </LinearLayout>
-
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="5dp" >
+                <TextView android:layout_width="0px" android:layout_height="wrap_content"  android:gravity="left" android:text="Snooze Duration:"  android:layout_weight="40" />
+                <LinearLayout android:layout_width="0px" android:layout_height="wrap_content" android:orientation="horizontal"  android:layout_weight="60" >
+                    <EditText android:id="@+id/snoozeDurationText" android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="60" android:inputType="number" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="minutes" />
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

@@ -29,6 +29,7 @@ public class AlarmActivity extends ActionBarActivity {
 
     EditText graceMinutesText;
     EditText centsPerMinuteText;
+    EditText snoozeDurationText;
     Button alarmTimeButton;
     Button daysButton;
     Button saveButton;
@@ -77,6 +78,8 @@ public class AlarmActivity extends ActionBarActivity {
         activeToggle = (ToggleButton) findViewById(R.id.activeToggle);
         graceMinutesText = (EditText) findViewById(R.id.graceMinutesText);
         centsPerMinuteText = (EditText) findViewById(R.id.centsPerMinuteText);
+        snoozeDurationText = (EditText) findViewById(R.id.snoozeDurationText);
+
         alarmTimeButton = (Button) findViewById(R.id.alarmTimeButton);
         daysButton = (Button) findViewById(R.id.daysButton);
         saveButton = (Button) findViewById(R.id.saveButton);
@@ -105,6 +108,7 @@ public class AlarmActivity extends ActionBarActivity {
         activeToggle.setChecked(alarm.active);
         centsPerMinuteText.setText(Integer.toString(alarm.centsPerMinute));
         graceMinutesText.setText(Integer.toString(alarm.graceMinutes));
+        snoozeDurationText.setText(Integer.toString(alarm.snoozeDuration));
         alarmTimeButton.setText(alarm.getDisplayTime());
         daysButton.setText(alarm.getDisplayDays());
 
@@ -137,6 +141,7 @@ public class AlarmActivity extends ActionBarActivity {
 
         alarm.graceMinutes = Integer.parseInt(graceMinutesText.getText().toString());
         alarm.centsPerMinute = Integer.parseInt(centsPerMinuteText.getText().toString());
+        alarm.snoozeDuration = Integer.parseInt(snoozeDurationText.getText().toString());
         alarm.active = activeToggle.isChecked();
         alarm.daysOfWeek = selectedDays;
         if (alarmIndex==-1) Alarms.getCurrent().add(alarm);

@@ -7,12 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 public class Alarm {
-    public int hour;
-    public int minute;
-    public boolean active;
-    public int[] daysOfWeek;
-    public int graceMinutes;
-    public int centsPerMinute;
+    public int hour = 6;
+    public int minute = 0;
+    public boolean active = true;
+    public int[] daysOfWeek = new int[0];
+    public int graceMinutes = 9;
+    public int centsPerMinute = 11;
+    public int snoozeDuration = 9;
     public String guid;
 
     public Date nextAlarmTime;              //This is the date/time the alarm is set for. (does not update when snoozed)
@@ -27,6 +28,7 @@ public class Alarm {
         a.active = true;
         a.daysOfWeek = new int[]{1,2,3,4,5};
         a.graceMinutes = 9;
+        a.snoozeDuration = 9;
         a.centsPerMinute = 11;
         a.guid = java.util.UUID.randomUUID().toString();
         return a;

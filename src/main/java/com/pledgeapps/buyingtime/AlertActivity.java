@@ -179,13 +179,13 @@ public class AlertActivity extends Activity {
     {
         silenceAlarm();
 
-        //Date nextAlarmTime = new Date();
-        alarm.nextNotificationTime.setTime( alarm.nextNotificationTime.getTime() + 9 * 60 * 1000 ); //9 minutes
+        int snoozeMinutes = alarm.snoozeDuration;
+        if (snoozeMinutes<1) snoozeMinutes=9; //Just in case an invalid number gets entered
+
+        alarm.nextNotificationTime.setTime( alarm.nextNotificationTime.getTime() + snoozeMinutes * 60 * 1000 );
         AlarmHelper.getCurrent().setAlarm(getApplicationContext(), alarm);
         snoozeButton.setText("Snoozing...");
         snoozeButton.setEnabled(false);
-
-        //finish();
     }
 
     private void dismiss()
