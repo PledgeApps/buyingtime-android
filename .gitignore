@@ -4,7 +4,7 @@
 # files for the dex VM
 *.dex
 
-#.gitignore
+.gitignore
 
 # Java class files
 #*.class
