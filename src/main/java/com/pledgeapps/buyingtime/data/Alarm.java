@@ -10,11 +10,13 @@ public class Alarm {
     public int hour = 6;
     public int minute = 0;
     public boolean active = true;
+    public boolean requirePuzzle = false;
     public int[] daysOfWeek = new int[0];
     public int graceMinutes = 9;
     public int centsPerMinute = 11;
     public int snoozeDuration = 9;
     public String guid;
+
 
     public Date nextAlarmTime;              //This is the date/time the alarm is set for. (does not update when snoozed)
     public Date nextNotificationTime;       //This is the date/time it will next beep (updates when snoozed)

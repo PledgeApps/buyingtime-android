@@ -1,16 +1,14 @@
 package com.pledgeapps.buyingtime;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.Vibrator;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,13 +20,12 @@ import com.pledgeapps.buyingtime.data.Alarms;
 import com.pledgeapps.buyingtime.data.Transaction;
 import com.pledgeapps.buyingtime.data.Transactions;
 import com.pledgeapps.buyingtime.utils.AlarmHelper;
-import com.pledgeapps.buyingtime.utils.AlarmReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class AlertActivity extends Activity {
+public class AlertActivity extends ActionBarActivity {
 
 
     TextView currentHour;
@@ -48,7 +45,9 @@ public class AlertActivity extends Activity {
     SimpleDateFormat minuteFormat = new SimpleDateFormat(":mm");
     SimpleDateFormat periodFormat = new SimpleDateFormat("a");
     SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMMM d");
+    DialogFragment dismissFragment;
     Alarm alarm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,27 +76,22 @@ public class AlertActivity extends Activity {
         snoozeButton.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {snooze();}} );
         dismissButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                dismiss();
+                checkDismiss();
             }
         });
 
         refreshHandler= new Handler();
         refreshHandler.postDelayed(refreshRunnable, 1000);
 
-
-
         updateScreen(true);
         soundAlarm();
-
-
-        // Register to get the alarm killed intent.
-        //registerReceiver(mReceiver, new IntentFilter(Alarms.ALARM_KILLED));
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (dismissFragment!=null && dismissFragment.getShowsDialog()) dismissFragment.dismiss();
         loadAlarm();
         soundAlarm();
     }
@@ -188,6 +182,16 @@ public class AlertActivity extends Activity {
         snoozeButton.setEnabled(false);
     }
 
+
+    private void checkDismiss()
+    {
+        if (alarm.requirePuzzle)
+        {
+            snooze();
+            solvePuzzle();
+        } else dismiss();
+    }
+
     private void dismiss()
     {
         silenceAlarm();
@@ -212,5 +216,16 @@ public class AlertActivity extends Activity {
         }
     }
 
+    private void solvePuzzle()
+    {
+        dismissFragment = DismissFragment.newInstance(puzzleHandler);
+        dismissFragment.show(this.getSupportFragmentManager(), "puzzleHandler");
+    }
+
+    Handler puzzleHandler = new Handler() {
+        public void handleMessage(Message m) {
+            dismiss();
+        }
+    };
 
 }

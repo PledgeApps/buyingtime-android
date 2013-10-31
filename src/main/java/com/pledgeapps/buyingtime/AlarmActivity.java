@@ -35,6 +35,7 @@ public class AlarmActivity extends ActionBarActivity {
     Button saveButton;
     Button deleteButton;
     ToggleButton activeToggle;
+    ToggleButton dismissPuzzle;
 
     String[] daysOfTheWeek = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
@@ -76,6 +77,7 @@ public class AlarmActivity extends ActionBarActivity {
         if (alarmIndex==-1) alarm = Alarm.createNewAlarm(); else alarm = Alarms.getCurrent().get(alarmIndex);
 
         activeToggle = (ToggleButton) findViewById(R.id.activeToggle);
+        dismissPuzzle = (ToggleButton) findViewById(R.id.dismissPuzzle);
         graceMinutesText = (EditText) findViewById(R.id.graceMinutesText);
         centsPerMinuteText = (EditText) findViewById(R.id.centsPerMinuteText);
         snoozeDurationText = (EditText) findViewById(R.id.snoozeDurationText);
@@ -106,6 +108,7 @@ public class AlarmActivity extends ActionBarActivity {
         this.selectedDays = alarm.daysOfWeek;
 
         activeToggle.setChecked(alarm.active);
+        dismissPuzzle.setChecked(alarm.requirePuzzle);
         centsPerMinuteText.setText(Integer.toString(alarm.centsPerMinute));
         graceMinutesText.setText(Integer.toString(alarm.graceMinutes));
         snoozeDurationText.setText(Integer.toString(alarm.snoozeDuration));
@@ -143,11 +146,13 @@ public class AlarmActivity extends ActionBarActivity {
         alarm.centsPerMinute = Integer.parseInt(centsPerMinuteText.getText().toString());
         alarm.snoozeDuration = Integer.parseInt(snoozeDurationText.getText().toString());
         alarm.active = activeToggle.isChecked();
+        alarm.requirePuzzle = dismissPuzzle.isChecked();
         alarm.daysOfWeek = selectedDays;
         if (alarmIndex==-1) Alarms.getCurrent().add(alarm);
 
         this.finish();
     }
+
 
 
 }

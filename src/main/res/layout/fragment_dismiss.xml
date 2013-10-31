@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="15dp">
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Alarm has been snoozed.  Solve this problem to dismiss." />
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center">
+        <TextView android:id="@+id/equationText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="14 + 77 =" android:textSize="50sp" />
+        <EditText android:id="@+id/answerText" android:layout_height="wrap_content" android:layout_width="100sp" android:inputType="number" android:textSize="50sp" />
+    </LinearLayout>
+</LinearLayout>
