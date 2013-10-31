@@ -9,13 +9,14 @@
 
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0px" android:layout_weight="50">
         <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:textStyle="bold" android:textSize="20sp" android:gravity="left" android:text="Donation Amount:" android:paddingTop="20dp" />
-        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="15dp">
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingRight="15dp" android:paddingLeft="15dp">
             <Spinner android:id="@+id/donationAmount" android:layout_height="wrap_content" android:layout_width="0px" android:layout_weight="100" ></Spinner>
             <Button android:id="@+id/donateButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Donate" />
         </LinearLayout>
-        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0px" android:layout_weight="25">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingBottom="15dp">
             <TextView android:id="@+id/explanation" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Google Play requires all in-app purchases to be for predefined dollar amounts.  Please select an amount below, which will be deducted from your current pledge after payment." />
         </LinearLayout>
+        <Button android:id="@+id/donatedButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="I Donated Offline" android:layout_gravity="right" android:layout_marginRight="15dp" />
     </LinearLayout>
 
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0px" android:layout_weight="25" android:gravity="bottom">
