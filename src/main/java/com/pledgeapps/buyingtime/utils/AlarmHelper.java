@@ -40,7 +40,7 @@ public class AlarmHelper {
     public void setAlarm(Context context, Alarm alarm)
     {
         disableAllAlarms(context);
-        if (alarm.nextNotificationTime==null) return;
+        if (alarm==null || alarm.nextNotificationTime==null) return;
 
         Bundle bundle = new Bundle();
         bundle.putString("ALARM_GUID", alarm.guid );
