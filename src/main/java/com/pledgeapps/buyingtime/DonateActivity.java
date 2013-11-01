@@ -3,6 +3,9 @@ package com.pledgeapps.buyingtime;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,7 +20,7 @@ import com.pledgeapps.buyingtime.data.Transaction;
 import com.pledgeapps.buyingtime.data.Transactions;
 import java.util.Date;
 
-public class DonateActivity extends Activity {
+public class DonateActivity extends ActionBarActivity {
 
     IabHelper mHelper;
     static final int RC_REQUEST = 10001;
@@ -26,6 +29,7 @@ public class DonateActivity extends Activity {
     TextView totalDonated;
     TextView explanation;
     Button donateButton;
+    Button donatedButton;
     Spinner donationAmount;
 
     @Override
@@ -40,8 +44,10 @@ public class DonateActivity extends Activity {
 
         donationAmount = (Spinner) findViewById(R.id.donationAmount);
         donateButton = (Button) findViewById(R.id.donateButton);
+        donatedButton = (Button) findViewById(R.id.donatedButton);
 
         donateButton.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donate();}} );
+        donatedButton.setOnClickListener( new View.OnClickListener() {public void onClick(View view) {donated();}} );
 
 
 
@@ -99,6 +105,18 @@ public class DonateActivity extends Activity {
         String sku = "donate_" + Integer.toString(amount);
         mHelper.launchPurchaseFlow(this, sku, RC_REQUEST, purchaseListener, "");
     }
+
+    public void donated()
+    {
+        DonationAmountFragment f = DonationAmountFragment.newInstance(donatedHandler);
+        f.show(this.getSupportFragmentManager(), "donatedHandler");
+    }
+
+    Handler donatedHandler = new Handler() {
+        public void handleMessage(Message m) {
+            finish();
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
