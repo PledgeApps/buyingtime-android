@@ -78,7 +78,9 @@ public class DismissFragment extends DialogFragment {
 
     public boolean solve()
     {
-        int userAnswer = Integer.parseInt(answerText.getText().toString());
+        int userAnswer = 0;
+        try { userAnswer = Integer.parseInt(answerText.getText().toString()); }
+        catch (Exception e) {}
         return userAnswer == answer;
     }
 
